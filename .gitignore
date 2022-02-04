@@ -1,0 +1,5 @@
+.env
+app.crontab
+found_tickers.txt
+service.log
+.byebug_history
