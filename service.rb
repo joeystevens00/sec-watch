@@ -31,7 +31,6 @@ def alert(match)
 end
 
 biotech_tickers = file_contents("data/biotech-domestic")
-biotech_tickers = "\n"
 stock_reg_filings = ["S-1", "S-3", "S-8"]
 sec_watch = SecWatchList.new(biotech_tickers.split("\n"), stock_reg_filings)
 sec_watch.peek { |found| alert(found) }
