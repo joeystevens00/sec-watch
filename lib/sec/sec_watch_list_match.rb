@@ -20,7 +20,6 @@ class SecWatchListMatch
     @date, @form, @cik = parts
     @company = parts[3, parts.length].join(" ")
     @summary = "#{@company} #{@form} Form SEC Filing"
-    byebug
   end
 
   attr_reader :url, :summary, :company, :date, :form, :cik
