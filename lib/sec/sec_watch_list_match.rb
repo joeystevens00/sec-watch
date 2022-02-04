@@ -1,4 +1,5 @@
 require "nokogiri"
+require "byebug"
 
 class SecWatchListMatch
   BASE_URL = "https://www.sec.gov/"
@@ -12,11 +13,14 @@ class SecWatchListMatch
       @match = match
     end
     doc = Nokogiri::HTML(@match)
-    @url = BASE_URL + doc.css("a").reject { |n| !n.attribute("href").value.include?("browse-edgar") }.first.attribute("href").value
+    links = doc.css("a")
+    @url = BASE_URL + links.first.attribute("href").value
+    @edgar_url = BASE_URL + links.reject { |n| !n.attribute("href").value.include?("browse-edgar") }.first.attribute("href").value
     parts = doc.text.split(" ")
     @date, @form, @cik = parts
     @company = parts[3, parts.length].join(" ")
     @summary = "#{@company} #{@form} Form SEC Filing"
+    byebug
   end
 
   attr_reader :url, :summary, :company, :date, :form, :cik

@@ -21,13 +21,11 @@ def email(match)
       subject match.summary
       body "New filing here: #{match.url}"
     end
-    byebug
     raise "Unable to reach #{alert_email}" unless mail
   end
 end
 
 def alert(match)
-  byebug
   write_file("found_tickers.txt", match.summary)
   email(match)
 end
