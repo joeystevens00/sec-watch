@@ -1,6 +1,8 @@
+require "mail"
+require "byebug"
+
 require_relative "lib/sec/sec_watch_list"
 require_relative "lib/sec/util"
-require "mail"
 
 def email(match)
   options = { :address => "smtp.gmail.com",
@@ -31,6 +33,8 @@ def alert(match)
 end
 
 biotech_tickers = file_contents("data/biotech-domestic")
-stock_reg_filings = ["S-1", "S-3", "S-8"]
+stock_reg_filings = ["S-1", "S-3", "S-8", "13G"]
 sec_watch = SecWatchList.new(biotech_tickers.split("\n"), stock_reg_filings)
-sec_watch.peek { |found| alert(found) }
+sec_watch.peek do |found|
+  alert(found)
+end
