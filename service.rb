@@ -1,8 +1,13 @@
-require "mail"
 require "byebug"
+require "mail"
+require "slack-ruby-client"
 
 require_relative "lib/sec/sec_watch_list"
 require_relative "lib/sec/util"
+
+Slack.configure do |config|
+  config.token = ENV['SLACK_API_TOKEN']
+end
 
 def email(match)
   options = { :address => "smtp.gmail.com",
@@ -27,9 +32,14 @@ def email(match)
   end
 end
 
+def slack(match)
+  client = Slack::Web::Client.new
+  client.chat_postMessage(channel: '#alert', text: "#{match.summary} #{match.url}", as_user: true)
+end
+
 def alert(match)
   write_file("found_tickers.txt", match.summary)
-  email(match)
+  slack(match)
 end
 
 biotech_tickers = file_contents("data/biotech-domestic")

@@ -4,7 +4,8 @@ RUN \
   apt-get update && apt-get install -y \
   build-essential \
   ruby-dev \
-  cron
+  cron \
+  nano
 
 RUN mkdir -p /app
 WORKDIR /app
